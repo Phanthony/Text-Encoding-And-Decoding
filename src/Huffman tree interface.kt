@@ -1,7 +1,9 @@
-interface HuffMan{
-    fun ReadFile(fileLocation: String)
+interface HuffManTree{
+    fun readFile(fileLocation: String)
 
-    fun Decode(fileLocation: String)
+    fun decode(fileLocation: String)
 
-    fun Encode(fileLocation: String)
+    fun encode(fileLocation: String)
+
+    fun buildCode()
 }
