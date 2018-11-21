@@ -12,14 +12,16 @@ class Huffman : HuffManTree {
         while (file.hasNext()) {
             val currentWord = file.next().replace(Regex("\\W+|[0-9]|_+"), "").toLowerCase()
             if (currentWord != "") {
-                wordCounter[currentWord] = wordCounter.getOrDefault(currentWord, 0) + 1
-                wordCount++
+                for (i in currentWord.toList()){
+                    wordCounter[i.toString()] = wordCounter.getOrDefault(i.toString(),0) + 1
+                    wordCount++
+                }
             }
         }
     }
 
     override fun buildCode() {
-        val wordFrequency = wordCounter.keys.map { Pair(it,wordCounter[it]!!/wordCount) }
+        val wordFrequency = wordCounter.keys.map { Pair(it,wordCounter[it]!!/wordCount) }.sortedBy { it.second }.toMutableList()
         val holdingRoots = mutableListOf<BinaryHuffMan>()
         val wordToNode = mutableMapOf<String,BinaryHuffMan>()
 
@@ -27,7 +29,7 @@ class Huffman : HuffManTree {
             wordToNode[it.first] = temp
             holdingRoots.add(temp) }
 
-        holdingRoots.sortedBy { it.freqValue }
+        holdingRoots.sortByDescending { it.freqValue }
 
         while (holdingRoots.size>1){
             val p1 = holdingRoots.removeAt(holdingRoots.size-1)
@@ -38,7 +40,8 @@ class Huffman : HuffManTree {
             root.addRight(p2)
             p2.changeBit()
             holdingRoots.add(root)
-            holdingRoots.sortBy { it.freqValue }
+            holdingRoots.sortByDescending { it.freqValue }
+            println(root)
         }
         for (i in wordToNode.keys){
             var currentNode = wordToNode[i]

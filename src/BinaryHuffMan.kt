@@ -1,10 +1,10 @@
-class BinaryHuffMan(freq: Double, word: String? =null){
+class BinaryHuffMan(freq: Double, character: String? = null){
     var leftNode: BinaryHuffMan? = null
     var rightNode: BinaryHuffMan? = null
     var parentNode: BinaryHuffMan? = null
     var bitValue = 0
     var freqValue = freq
-    var wordValue: String? = word
+    val wordValue = character
 
     fun addLeft(child: BinaryHuffMan){
         leftNode = child
