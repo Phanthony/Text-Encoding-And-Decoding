@@ -12,16 +12,23 @@ class Huffman : HuffManTree {
         while (file.hasNext()) {
             val currentWord = file.next().replace(Regex("\\W+|[0-9]|_+"), "").toLowerCase()
             if (currentWord != "") {
+                /*
                 for (i in currentWord.toList()){
                     wordCounter[i.toString()] = wordCounter.getOrDefault(i.toString(),0) + 1
                     wordCount++
                 }
+
+            */
+                wordCounter[currentWord] = wordCounter.getOrDefault(currentWord,0) + 1
+                wordCount++
             }
         }
     }
 
     override fun buildCode() {
         val wordFrequency = wordCounter.keys.map { Pair(it,wordCounter[it]!!/wordCount) }.sortedBy { it.second }.toMutableList()
+        println(wordFrequency)
+        println(wordCount)
         val holdingRoots = mutableListOf<BinaryHuffMan>()
         val wordToNode = mutableMapOf<String,BinaryHuffMan>()
 
@@ -41,7 +48,6 @@ class Huffman : HuffManTree {
             p2.changeBit()
             holdingRoots.add(root)
             holdingRoots.sortByDescending { it.freqValue }
-            println(root)
         }
         for (i in wordToNode.keys){
             var currentNode = wordToNode[i]
@@ -59,7 +65,29 @@ class Huffman : HuffManTree {
     }
 
     override fun encode(fileLocation: String) {
+        val openFile = Scanner(File(fileLocation))
+        val file = File("C:\\Users\\APhan\\Desktop\\Testerr.txt")
+        file.writeText("")
+        while (openFile.hasNextLine()){
+            val wordList = openFile.nextLine().toLowerCase().split(" ").toMutableList()
+            for (i in wordList) {
 
+                if (i != "") {
+                    /*
+                    for (x in i.replace(Regex("\\W+|[0-9]|_+"), "")) {
+                        file.appendText(wordCode[x.toString()].toString())
+                        println(wordCode[x.toString()].toString())
+                    }
+                    file.appendText(" ")
+                }
+                */
+                    file.appendText(wordCode[i.replace(Regex("\\W+|[0-9]|_+"), "")].toString())
+                    println(wordCode[i.replace(Regex("\\W+|[0-9]|_+"), "")])
+                    file.appendText(" ")
+                }
+            }
+            file.appendText("\n")
+        }
     }
 }
 
@@ -67,7 +95,8 @@ fun main(args: Array<String>) {
     val t = Huffman()
 
     t.readFile("C:\\Users\\APhan\\Desktop\\41.txt")
-    //println(t.wordCounter)
     t.buildCode()
-    println(t.wordCode)
+    println("Done Coding")
+    t.encode("C:\\Users\\APhan\\Desktop\\41.txt")
+    println("Done Encoding")
 }
